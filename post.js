@@ -700,9 +700,11 @@ RawPlayer.prototype._display_image = function(image) {
     if (!this.start) {
         this.start = new Date();
         this._set_status("playing");
+        this.decode_delay = (1000 / this.framerate / 3)|0;
     } else {
         this.frames += 1;
         var duration = (new Date()) - this.start;
+        this.decode_delay = Math.max(0, (this.frames + 1) * (1000 / this.framerate) - duration) - 10;
         if (duration > 1000) {
             this._set_status("fps", this.frames / (duration * 0.001));
         }
@@ -799,7 +801,7 @@ RawPlayer.prototype._handle_onload = function(request, event) {
             }
 
             if (remaining > 0 || decoder.has_more()) {
-                setTimeout(decode, 0);
+                setTimeout(decode, that.decode_delay);
                 return;
             }
 
@@ -830,6 +832,11 @@ RawPlayer.prototype.playback = function(url) {
 RawPlayer.prototype.stop = function() {
     this._set_status("stopped");
     this._reset();
+};
+
+/** @expose */
+RawPlayer.prototype.set_framerate = function(fps) {
+    this.framerate = fps;
 };
 
 /** @expose */

@@ -23,7 +23,7 @@ a {
     color: #00a;
 }
 </style>
-<script type="text/javascript" src="../lib/libde265.min.js"></script>
+<script type="text/javascript" src="/lib/libde265.js"></script>
 <script>
 <!--
 var VIDEO_URL = "spreedmovie.hevc";
@@ -64,6 +64,7 @@ window.onload = function() {
                 status.innerHTML = msg;
             }
         });
+        player.set_framerate(30);
         player.playback(VIDEO_URL);
     };
 
