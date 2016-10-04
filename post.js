@@ -704,7 +704,7 @@ RawPlayer.prototype._display_image = function(image) {
     } else {
         this.frames += 1;
         var duration = (new Date()) - this.start;
-        this.decode_delay = Math.max(0, (this.frames + 1) * (1000 / this.framerate) - duration) - 10;
+        this.decode_delay = Math.max(0, ((this.frames + 1) * (1000 / this.framerate) - duration - 10)|0);
         if (duration > 1000) {
             this._set_status("fps", this.frames / (duration * 0.001));
         }
